@@ -11,7 +11,7 @@ struct {
 public:
     void add_ref(int tar) {
         ref_t * p = refers_to_sorted;
-        while(p->next != nullptr && p->next->val < tar) p = p->next; 
+        while(p->next != nullptr && p->next->val <= tar) p = p->next; 
         if(p->next == nullptr) 
             p->next = new ref_t({tar, nullptr});
         else
@@ -31,12 +31,12 @@ int main(void) {
     
     auto dfs = [] (auto && f, int start) -> void {
         cout << start << " ";
+        visited[start] = true;
         auto p = graph[start].refers_to_sorted->next;
         while (p) {
             if(!visited[p->val]){ 
+                // visited[p->val] = true; // and dont mark here
                 f(f, p->val);   // you should mark it as visited first
-
-                visited[p->val] = true;
             }
             p = p->next;
         }
@@ -45,6 +45,7 @@ int main(void) {
     queue<int> next_to_visit;
     auto bfs = [&next_to_visit] (int start) -> void {
         next_to_visit.push(start);
+        visited[start] = true; // in addition mark here
         while(!next_to_visit.empty()) {
             int tmp = next_to_visit.front();
             next_to_visit.pop();
@@ -53,13 +54,12 @@ int main(void) {
             while (p) {
                 if(!visited[p->val]){ 
                     next_to_visit.push(p->val);
-                    visited[p->val] = true;
+                    visited[p->val] = true; // dont mark here!
                 }
                 p = p->next;
             }
         }
     };
-
     dfs(dfs, 1);
     cout << endl;
     memset(visited, false, sizeof(visited));
