@@ -62,7 +62,7 @@ int main() {
             cout << "edge number == " << graph[mi].size() << endl;  
         #endif
         for(auto p : graph[mi]) {
-            dis[p.v] = dis[p.v] > dis[mi] + p.w ? dis[mi] + p.w : dis[p.v];
+            dis[p.v] = ( (dis[p.v] > dis[mi] + p.w) && dis[mi] + p.w > 0) ? dis[mi] + p.w : dis[p.v];
         }
     }
 
@@ -73,3 +73,12 @@ int main() {
 
     return 0;
 }
+
+/*
+conclusion:
+1.use proper data types.
+2.use the same types.
+3.mind if the integer overflows.
+4.notice the range provided in the question.
+5.you need to recite useful data structrues 
+*/
