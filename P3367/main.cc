@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 typedef struct node
@@ -24,9 +25,11 @@ public:
     }
 
     void merge(node * q) {
+        if(eq(q)) return; // last change, segfault && WA disappleared then AC
         node * const my_father = this->father;
-        auto their_father = q->father;
-        my_father->child.push_back(their_father->father); // was in 
+        node * const their_father = q->father;
+        // my_father->child.push_back(their_father->father); // was in
+        my_father->child.push_back(their_father);
         their_father->father = my_father;                 // reverse order
         for(auto & qfc : their_father->child){
             qfc->father = my_father;
@@ -42,7 +45,7 @@ int main() {
     scanf("%d%d", &N, &M);
     node tbl[N+10];
     for (int i = 0; i <= N+9; i++) {
-        tbl[i] = node(i, tbl + i);
+        tbl[i] = node(i, &tbl[i]);
     }
     
     for(int i = 0; i < M; i++) {
