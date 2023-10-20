@@ -1,56 +1,54 @@
 #include <bits/stdc++.h>
-int N, M;
+using namespace std;
+
 typedef struct node
 {
     int data;
-    node * next = nullptr; 
-    node * prior = nullptr; 
+    node * father = nullptr; 
+    vector<node *> child; 
+public:
+    node(){}
+    node(int x, node* t) {data = x; father = t;}
 
-    // node(us x): data(x), next(nullptr) {}
-    bool find(int x) {
-        auto p = head();
-        while(p){
-            if(p->data == x) return true;
-            p = p->next;
-        }
-        return false;
+    // bool find(node* x) {
+    //     if(this->father == x) return true; 
+    //     auto sibling = this->father->child;
+    //     // auto it = std::find(sibling.begin(), sibling.end(), x); // was int type parameter
+    //     /*error: ISO C++ forbids comparison between pointer and integer [-fpermissive]*/
+    //     auto it = std::find(sibling.begin(), sibling.end(), x);
+    //     return  it != sibling.end();
+    // }
+
+    bool eq(node * q) {
+        return q->father == this->father;
     }
-    node * head() {
-        auto q = this;
-        while (q->prior){
-            q = q->prior;
-        }
-        return q;
-    }
-    node * tail() {
-        auto q = this;
-        while (q->next){
-            q = q->next;
-        }
-        return q;
-    }
+
     void merge(node * q) {
-        if(head() == (q=q->head())) return;
-        node *p = tail();
-        q->prior = p;
-        p->next = q;
-        return;
+        node * const my_father = this->father;
+        auto their_father = q->father;
+        my_father->child.push_back(their_father->father); // was in 
+        their_father->father = my_father;                 // reverse order
+        for(auto & qfc : their_father->child){
+            qfc->father = my_father;
+            my_father->child.push_back(qfc);
+        }
+        their_father->child.clear();
     }
 } node;
+
+int N, M;
 int Z, X, Y;
-using namespace std;
 int main() {
-    cin >> N >> M;
+    scanf("%d%d", &N, &M);
     node tbl[N+10];
     for (int i = 0; i <= N+9; i++) {
-        tbl[i] = {i, nullptr, nullptr};
+        tbl[i] = node(i, tbl + i);
     }
     
     for(int i = 0; i < M; i++) {
-        // cin >> Z >> X >> Y;
-        scanf("%d %d %d", &Z, &X, &Y);
+        scanf("%d%d%d", &Z, &X, &Y);
         if(Z==2){
-            if(tbl[X].find(Y))
+            if(tbl[X].eq(&tbl[Y]))
                 printf("Y\n");
             else
                 printf("N\n");
