@@ -1,116 +1,91 @@
 #include <bits/stdc++.h>
-// using namespace std;
+#define MIN(x, y) ((x)<(y)?(x):(y))
+std::map<std::string, int> my_map;
+int n,m;
+char s[20];
+const int maxn = int(1e5+10);
+int vis[maxn];
+int tmp_vis[maxn];
+int article[maxn];
+int cnt;
+int main(){
 
-int n, m;
-long long word[1001];
-
-long long article[100001];
-long long where[100001]; 
-long long which[100001];
-char s[11];
-#define PRINT(p,n) for(int k = 1; k <= (n); ++k) printf("%lld\n", (p)[k]);
-inline long long my_hash(char s[]){
-    int l = strlen(s);
-    long long sum = 0;
-    long long mul = 1;
-    for(int i = 0; i < l; i++) {
-        sum += s[i]*i + 9907;
-        mul *= s[i]-i + 9907;
-    }
-    return ((sum*mul) * 9901) % LLONG_MAX;
-}
-inline
-int find_(long long val){
-    int l = 1; int r = n;
-    int mid = (l + r) / 2;
-    while(1) 
-    {
-        if(l == r) {
-            return word[l] == val ? l : 0;
-        }
-
-        if(word[mid] < val) 
-        {
-            l = mid + 1;
-            mid = (l + r) / 2; 
-        }
-        else
-        {
-            r = mid;
-            mid = (l + r) / 2; 
-        }
-    }
-    return 0;
-}
-
-int cur;
-// n + m * n * log(n)
-inline
-void read(){
     scanf("%d", &n);
-    for(int i = 1; i <= n; i++) {
+    for(int i=1; i<=n; i++) {
         scanf("%s", s);
-        word[i] = my_hash(s);
+        my_map[s] = i;
     }
-    std::sort(word + 1, word + n + 1);
     scanf("%d", &m);
-    cur = 0;
-    for(int j = 1; j <= m; j++) {
+    for(int i=1; i<=m; i++) { 
         scanf("%s", s);
-        article[j] = my_hash(s);
-        int pos = 0;
-        // find_ : log(n) 
-        if((pos = find_(article[j])) != 0) {
-            // printf("%s",s);
-            where[++cur] = j;
-            which[cur] = pos;
+        article[i] = my_map[s];
+        if(article[i]) {
+            if(vis[article[i]]==0)
+                cnt++;       
+            vis[article[i]]++;
         }
     }
-    #ifdef DBG
-        PRINT(word, n)
-        PRINT(article, m)
-        PRINT(where, cur)
-        PRINT(which, cur)
-    #endif
-}
-/*
-    枚举右端点， 贪心左端点
-*/
-int vis[1001]; 
-int tmp[1001];
-inline
-void doit(){
-    int cnt=0;
-    for(int i = 1; i <= cur; i++)
-    {
-        if(!vis[which[i]]) cnt++;       
-        vis[which[i]]++;
-    }
 
-    memcpy(tmp, vis, sizeof vis);
-    int ans = where[cur] - where[1] + 1;
-    if(cnt == 0) {
-        printf("0\n0"); return;
-    }
-    int l, r;
-    for( r = cur; r >= cnt; r--) {
-        for( l = 1; l <= r - cnt; l++) {
-            if(tmp[which[l]] <= 1) break;
-            tmp[which[l]]--;
-        }
-
-        int len = where[r] - where[l] + 1;
-        if(len < ans) ans = len;
+    int len = 0xffffff, r, l;
+    for( r=m; r>=1; --r ) {
         
-        if(vis[which[r]]==1) break;
-        vis[which[r]]--;
-        memcpy(tmp, vis, sizeof vis);
+        memcpy(tmp_vis, vis, (m+1)*sizeof(int));
+        for( l=1; l<=r; ++l ) {
+            if(article[l]) {
+                if(tmp_vis[article[l]]==1) break;
+                tmp_vis[article[l]]--;
+            }
+        }
+
+        len = MIN(r - l + 1, len); 
+        if(len == cnt) break;
+        if(article[r]){
+            if(vis[article[r]]==1) break;
+            else --vis[article[r]];
+        }
     }
-    printf("%d\n%d", cnt, ans);
+
+    printf("%d\n%d", cnt, len);
 }
 
-int main(void) {
-    read();
-    doit();
-    return 0;
-}
+/*
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<cstring>
+#include<iostream>
+#include<map>
+using namespace std;
+const int maxn=100000+10;
+int n,m,h,t;
+int tot,num,ans=0x7f7f7f7f;
+map<string,int>mapp;
+char s[maxn];
+int a[maxn],b[maxn],q[maxn];
+bool vis[maxn];
+int main()
+{
+    scanf("%d",&n);
+    for(int i=1;i<=n;i++)
+    {
+        scanf("%s",s);
+        mapp[s]=i;
+    }scanf("%d",&m);
+    for(int i=1;i<=m;i++)
+    {
+        scanf("%s",s);a[i]=mapp[s];//printf("%d ",a[i]);
+        if(a[i]==0)continue;
+        if(!vis[a[i]])tot++,vis[a[i]]=true;
+    }h=1;t=0;
+    for(int i=1;i<=m;i++)
+    {
+        if(b[a[i]]==0 && a[i]!=0)
+        {
+            num++;
+        }b[a[i]]=i;q[++t]=i;
+        while(h<=t && q[h]<b[a[q[h]]])h++;
+        if(num==tot)ans=min(ans,i-q[h]+1);
+    }
+    if(num==0)printf("0\n0\n");
+    else printf("%d\n%d\n",tot,ans);
+}*/
