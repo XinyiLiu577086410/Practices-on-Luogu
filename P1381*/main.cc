@@ -3,10 +3,11 @@
 std::map<std::string, int> my_map;
 int n,m;
 char s[20];
-const int maxn = int(1e5+10);
+const int maxn = int(1e5)+10;
 int vis[maxn];
 int article[maxn]; // store mapped value
 int cnt;
+int rightest[maxn];
 
 int main(){
 
@@ -30,11 +31,10 @@ int main(){
             vis[article[i]]++;
         }
     }
-    int rightest[maxn]={0};
-    int len = 0xf7f7ff;int r=0;int l=1;
+    int len = 0xf7f7ff; int r=0; int l=1;
     int c=0;
     memset(vis,0,sizeof vis); //reuse vis[]
-    while(c != cnt){
+    while(c != cnt && r<=m){
         r++;
         if(article[r]){
             rightest[article[r]]=r;
@@ -44,10 +44,10 @@ int main(){
     
     for(; r<=m; ++r/*,  putchar('%')*/) {
         if(article[r]) rightest[article[r]]=r;
-        while (article[l]==0 || rightest[article[l]]!=l && l<r) ++l;
+        while ((article[l]==0 || rightest[article[l]]!=l) && l<r) ++l;       
+        len = MIN(len, r-l+1);
         // printf("\nrightest[article[l]]=%d\n",rightest[article[l]]);
         // printf("\nl=%d,r=%d\n",l,r);
-        len = MIN(len, r-l+1);
     }
     // printf("\nl=%d,r=%d\n",l,r-1);
     printf("%d\n%d", cnt, len);
