@@ -9,8 +9,7 @@ int main(void){
     if(x+tmp>=x) tmp+=x;
     else tmp=x;
     ans=MAX(ans,tmp);
+    // 注意每次都要更新答案
   }     
-  //   } ans=MAX(tmp,ans);printf("%d",x); 
-  // 你一直在编译和测试main.cc啊！
   printf("%d",ans);
 }
