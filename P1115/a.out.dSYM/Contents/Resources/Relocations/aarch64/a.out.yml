@@ -1,0 +1,15 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     a.out
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: __Z6subsumii, symObjAddr: 0x0, symBinAddr: 0x100003B90, symSize: 0x34 }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _a, symObjAddr: 0x4BC8, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x71, offset: 0x71, size: 0x8, addend: 0x0, symName: _pfx, symObjAddr: 0xC80F0, symBinAddr: 0x1000CB528, symSize: 0x0 }
+  - { offsetInCU: 0x9C, offset: 0x9C, size: 0x8, addend: 0x0, symName: _n, symObjAddr: 0x24EB40, symBinAddr: 0x100251F78, symSize: 0x0 }
+  - { offsetInCU: 0xB1, offset: 0xB1, size: 0x8, addend: 0x0, symName: _sum, symObjAddr: 0x24EB48, symBinAddr: 0x100251F80, symSize: 0x0 }
+  - { offsetInCU: 0x21F9, offset: 0x21F9, size: 0x8, addend: 0x0, symName: __Z6subsumii, symObjAddr: 0x0, symBinAddr: 0x100003B90, symSize: 0x34 }
+  - { offsetInCU: 0x2233, offset: 0x2233, size: 0x8, addend: 0x0, symName: __Z7min_pfxii, symObjAddr: 0x34, symBinAddr: 0x100003BC4, symSize: 0xA8 }
+  - { offsetInCU: 0x2297, offset: 0x2297, size: 0x8, addend: 0x0, symName: __Z7max_pfxii, symObjAddr: 0xDC, symBinAddr: 0x100003C6C, symSize: 0xA8 }
+  - { offsetInCU: 0x22FB, offset: 0x22FB, size: 0x8, addend: 0x0, symName: __Z7max_subii, symObjAddr: 0x184, symBinAddr: 0x100003D14, symSize: 0x130 }
+  - { offsetInCU: 0x237B, offset: 0x237B, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2B4, symBinAddr: 0x100003E44, symSize: 0x134 }
+...
