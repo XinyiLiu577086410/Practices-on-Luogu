@@ -21,33 +21,33 @@ vector<eg> reserved;
 set<int> vis;
 
 // union-find set
-vector<int> ufs_tag;
-vector<set<int> > ufs_child;
+vector<int> father;
+vector<set<int> > son;
 
 bool ufs_find(int x, int y){
     if(x==y) return true;
-    return ufs_tag[x] && ufs_tag[x]==ufs_tag[y];
+    return father[x] && father[x]==father[y];
 }
 
 void ufs_merge(int x, int y){
     if(ufs_find(x,y)) return;
-    if(!ufs_tag[x]){
-        ufs_tag[x]=x;
-        ufs_child[x].insert(x);
+    if(!father[x]){
+        father[x]=x;
+        son[x].insert(x);
     }
-    if(!ufs_tag[y]){
-        ufs_tag[y]=y;
-        ufs_child[y].insert(y);
+    if(!father[y]){
+        father[y]=y;
+        son[y].insert(y);
     }
 
-    x=ufs_tag[x];
-    y=ufs_tag[y];
-    for(auto p : ufs_child[y]){
-        ufs_child[x].insert(p);
+    x=father[x];
+    y=father[y];
+    for(auto p : son[y]){
+        son[x].insert(p);
         // 少了一句
-        ufs_tag[p] = x;
+        father[p] = x;
     }
-    ufs_child[y].clear();
+    son[y].clear();
 }
 
 void add(int u, int v, int w){
@@ -81,8 +81,8 @@ bool find_crcl(eg e_to_add){
 int main(void){
     cin>>n>>m;
     head.resize(n+1,-1);
-    ufs_tag.resize(n+1,0);
-    ufs_child.resize(n+1);
+    father.resize(n+1,0);
+    son.resize(n+1);
     int x,y,z;
     for(int i=0; i<m; i++){
         // cin>>x>>y>>z;

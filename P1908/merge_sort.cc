@@ -14,8 +14,8 @@ void read(){
         scanf("%d", &data[i]);
     }
 }
-/*  merge sort data[l,r], algorithm extended:*/
-/* at the same time calculate ans           */
+/* A merge sort data[l,r]（algorithm extended）*/
+/*  At the same time calculate inversions     */
 void msort(int l, int r) {
     int mid = (l+r)/2;
     if(l == r) return;
@@ -24,10 +24,9 @@ void msort(int l, int r) {
         msort(mid+1, r);
     }
     /* merge */
-    int i1 = l, i2 = mid + 1; 
-    // i1,i2 associate with a[] (sorted data inside);
-    int j = l;                  
-    // j assoiciate with tmp[] (data inside will be write back)
+    int i1 = l, i2 = mid + 1;   // i1,i2 associate with a[] (sorted data inside);
+    int j = l;                  // j assoiciate with tmp[] (the data inside will
+                                // be write back to a[])
     int tag_i2 = 0;
     while(i1 <= mid && i2 <= r) {
         if(data[i1] <= data[i2]) {
@@ -36,7 +35,7 @@ void msort(int l, int r) {
             j++;
         }
         else{
-            ans += mid + 1 - i1;
+            ans += mid + 1 - i1; 
             tmp[j] = data[i2];
             i2++;
             j++;

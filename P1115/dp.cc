@@ -9,7 +9,6 @@ int main(void){
     if(x+tmp>=x) tmp+=x;
     else tmp=x;
     ans=MAX(ans,tmp);
-    // 注意每次都要更新答案
   }     
   printf("%d",ans);
 }
